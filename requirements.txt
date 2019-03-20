@@ -1,12 +1,22 @@
 aniso8601==6.0.0
+asn1crypto==0.24.0
+bcrypt==3.1.6
+cffi==1.12.2
 Click==7.0
+cryptography==2.6.1
 Flask==1.0.2
+Flask-Bcrypt==0.7.1
+Flask-Cors==3.0.7
 Flask-RESTful==0.3.7
--e git+https://github.com/HugoJBello/flask-template.git@bff55e8dcfed7c43a8dc7c557097890728ddee6c#egg=flaskr
+Flask-SQLAlchemy==2.3.2
+-e git+https://github.com/HugoJBello/flask-template.git@ce4c964119f83af2a332db3c19a469611776946c#egg=flaskr
 itsdangerous==1.1.0
 Jinja2==2.10
+jwt==0.6.1
 MarkupSafe==1.1.1
 pkg-resources==0.0.0
+pycparser==2.19
 pytz==2018.9
 six==1.12.0
+SQLAlchemy==1.3.1
 Werkzeug==0.15.0
