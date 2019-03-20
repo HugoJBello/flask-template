@@ -1,0 +1,12 @@
+aniso8601==6.0.0
+Click==7.0
+Flask==1.0.2
+Flask-RESTful==0.3.7
+-e git+https://github.com/HugoJBello/flask-template.git@bff55e8dcfed7c43a8dc7c557097890728ddee6c#egg=flaskr
+itsdangerous==1.1.0
+Jinja2==2.10
+MarkupSafe==1.1.1
+pkg-resources==0.0.0
+pytz==2018.9
+six==1.12.0
+Werkzeug==0.15.0
