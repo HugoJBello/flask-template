@@ -2,7 +2,7 @@
 
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
-sqlite_local_base = 'sqlite://sqlite.db'
+sqlite_local_base = 'sqlite:////tmp/test.db'
 database_name = 'flask_jwt_auth'
 
 
@@ -18,4 +18,4 @@ class DevelopmentConfig(BaseConfig):
     """Development configuration."""
     DEBUG = True
     BCRYPT_LOG_ROUNDS = 4
-    SQLALCHEMY_DATABASE_URI = sqlite_local_base + database_name
+    SQLALCHEMY_DATABASE_URI = sqlite_local_base
