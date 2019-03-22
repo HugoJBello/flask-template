@@ -1,9 +1,10 @@
-# https://github.com/realpython/flask-jwt-auth/tree/master/project/server/auth
-# https://realpython.com/token-based-authentication-with-flask/
+# project/server/models.py
+
+
 import jwt
 import datetime
 
-from app import app, db, bcrypt
+from project.server import app, db, bcrypt
 
 
 class User(db.Model):

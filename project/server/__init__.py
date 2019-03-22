@@ -1,25 +1,25 @@
+# project/server/__init__.py
+
 import os
 
 from flask import Flask
-from flask_restful import Resource, Api
-from app.auth import Login
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from flask_restful import Resource, Api
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
+
 
 app_settings = os.getenv(
     'APP_SETTINGS',
-    'app.config.DevelopmentConfig'
+    'project.server.config.DevelopmentConfig'
 )
 app.config.from_object(app_settings)
-
-
-CORS(app)
-bcrypt = Bcrypt(app)
-db = SQLAlchemy(app)
 
 
 class HelloWorld(Resource):
@@ -27,8 +27,9 @@ class HelloWorld(Resource):
         return {'hello': 'world'}
 
 api.add_resource(HelloWorld, '/')
-api.add_resource(Login, '/auth/login')
 
+bcrypt = Bcrypt(app)
+db = SQLAlchemy(app)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+from project.server.auth.views import auth_blueprint
+app.register_blueprint(auth_blueprint)

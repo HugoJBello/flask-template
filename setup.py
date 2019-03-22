@@ -8,7 +8,7 @@ setup(
     license='BSD',
     maintainer='',
     maintainer_email='hjbello.wk@gmail.com',
-    description='The basic blog app built in the Flask tutorial.',
+    description='The basic blog server built in the Flask tutorial.',
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,

@@ -1,3 +1,4 @@
+# manage.py
 
 
 import os
@@ -9,16 +10,16 @@ from flask_migrate import Migrate, MigrateCommand
 
 COV = coverage.coverage(
     branch=True,
-    include='flask_template/*',
+    include='project/*',
     omit=[
-        'flask_template//tests/*',
-        'flask_template//app/config.py',
-        'flask_template//app/*/__init__.py'
+        'project/tests/*',
+        'project/server/config.py',
+        'project/server/*/__init__.py'
     ]
 )
 COV.start()
 
-from app import app, db, models
+from project.server import app, db, models
 
 migrate = Migrate(app, db)
 manager = Manager(app)
@@ -30,7 +31,7 @@ manager.add_command('db', MigrateCommand)
 @manager.command
 def test():
     """Runs the unit tests without test coverage."""
-    tests = unittest.TestLoader().discover('tests', pattern='test*.py')
+    tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         return 0
@@ -40,7 +41,7 @@ def test():
 @manager.command
 def cov():
     """Runs the unit tests with coverage."""
-    tests = unittest.TestLoader().discover('tests')
+    tests = unittest.TestLoader().discover('project/tests')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         COV.stop()
