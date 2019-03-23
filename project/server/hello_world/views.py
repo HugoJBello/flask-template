@@ -1,6 +1,8 @@
 from functools import wraps
-from flask import request, Blueprint
+from flask import request, Blueprint, make_response, jsonify
 from flask_restful import Resource
+from flask.views import MethodView
+
 from project.server.hello_world.is_authenticated_middleware import is_authenticated
 from project.server import bcrypt, db
 
@@ -20,22 +22,31 @@ def home_decorator():
         return __home_decorator
     return _home_decorator
 
-class HelloWorld(Resource):
+class HelloWorld(MethodView):
     @home_decorator()
     def get(self):
         args = request.args
-        return {'hello': 'world ' + args["user"]}
+        return make_response(jsonify({'hello': 'world ' + args["user"]}))
+
 
 class HelloWorldSecured(Resource):
     @is_authenticated()
     def get(self):
         args = request.args
-        return {'hello': 'world ' + args["user"]}
+        return make_response(jsonify({'hello': 'world ' + args["user"]}))
+
 
 hello_view = HelloWorld.as_view('hello')
+hello_secured = HelloWorldSecured.as_view('hello-sec')
 
 hello_blueprint.add_url_rule(
-    '/',
+    '/hello',
     view_func=hello_view,
+    methods=['GET']
+)
+
+hello_blueprint.add_url_rule(
+    '/hello_secured',
+    view_func=hello_secured,
     methods=['GET']
 )
