@@ -5,8 +5,8 @@ import time
 import json
 import unittest
 
-from server import db
-from server.models import User, BlacklistToken
+from project.server import db
+from project.server.models import User, BlacklistToken
 from tests.base_test_case import BaseTestCase
 
 

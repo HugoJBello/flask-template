@@ -4,8 +4,8 @@
 
 import unittest
 
-from server import db
-from server.models import User
+from project.server import db
+from project.server.models import User
 from tests.base_test_case import BaseTestCase
 
 

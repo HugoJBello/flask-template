@@ -1,4 +1,4 @@
-from server import app
+from project.server import app
 from unittest import TestCase
 import json
 

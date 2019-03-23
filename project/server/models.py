@@ -3,8 +3,9 @@
 
 import jwt
 import datetime
+import os
 
-from project.server import app, db, bcrypt
+from project.server import db, bcrypt
 
 
 class User(db.Model):
@@ -20,7 +21,7 @@ class User(db.Model):
     def __init__(self, email, password, admin=False):
         self.email = email
         self.password = bcrypt.generate_password_hash(
-            password, app.config.get('BCRYPT_LOG_ROUNDS')
+            password, os.getenv('BCRYPT_LOG_ROUNDS')
         ).decode()
         self.registered_on = datetime.datetime.now()
         self.admin = admin
@@ -38,7 +39,7 @@ class User(db.Model):
             }
             return jwt.encode(
                 payload,
-                app.config.get('SECRET_KEY'),
+                os.getenv('SECRET_KEY'),
                 algorithm='HS256'
             )
         except Exception as e:
@@ -52,7 +53,7 @@ class User(db.Model):
         :return: integer|string
         """
         try:
-            payload = jwt.decode(auth_token, app.config.get('SECRET_KEY'))
+            payload = jwt.decode(auth_token, os.getenv('SECRET_KEY'))
             is_blacklisted_token = BlacklistToken.check_blacklist(auth_token)
             if is_blacklisted_token:
                 return 'Token blacklisted. Please log in again.'

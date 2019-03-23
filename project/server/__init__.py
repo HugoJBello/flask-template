@@ -21,15 +21,11 @@ app_settings = os.getenv(
 )
 app.config.from_object(app_settings)
 
-
-class HelloWorld(Resource):
-    def get(self):
-        return {'hello': 'world'}
-
-api.add_resource(HelloWorld, '/')
-
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 
 from project.server.auth.views import auth_blueprint
 app.register_blueprint(auth_blueprint)
+
+from project.server.hello_world.views import hello_blueprint
+app.register_blueprint(hello_blueprint)
