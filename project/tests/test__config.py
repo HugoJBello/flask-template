@@ -18,7 +18,7 @@ class TestDevelopmentConfig(TestCase):
         self.assertTrue(app.config['DEBUG'] is True)
         self.assertFalse(current_app is None)
         self.assertTrue(
-            app.config['SQLALCHEMY_DATABASE_URI'] == 'mysql://root:3141592625@35.187.36.108/'
+            app.config['SQLALCHEMY_DATABASE_URI'] == 'mysql://root:3141592625@localhost/'
         )
 
 
@@ -30,7 +30,7 @@ class TestTestingConfig(TestCase):
     def test_app_is_testing(self):
         self.assertTrue(app.config['DEBUG'])
         self.assertTrue(
-            app.config['SQLALCHEMY_DATABASE_URI'] == 'mysql://root:3141592625@35.187.36.108/'
+            app.config['SQLALCHEMY_DATABASE_URI'] == 'mysql://root:3141592625@localhost/'
         )
 
 

@@ -5,8 +5,27 @@ import jwt
 import datetime
 import os
 
-from project.server import db, bcrypt
+from project.server import app, db, bcrypt
 
+from sqlalchemy import *
+
+metadata = MetaData(db.engine)
+
+user = Table('users', metadata,
+    Column('id', Integer, primary_key=True),
+    Column('email', String(255), nullable=False),
+    Column('username', String(255), nullable=True),
+    Column('password', String(255)),
+    Column('registered_on', DateTime),
+    Column('admin', Boolean, nullable=False)
+)
+
+blacklist_token = Table('blacklist_tokens', metadata,
+    Column('id', Integer, primary_key=True),
+    Column('token', String(500), nullable=False),
+    Column('blacklisted_on', DateTime)
+)
+metadata.create_all()
 
 class User(db.Model):
     """ User Model for storing user related details """
@@ -14,14 +33,17 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
+    username = db.Column(db.String(255), unique=False, nullable=True)
     password = db.Column(db.String(255), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
     admin = db.Column(db.Boolean, nullable=False, default=False)
 
-    def __init__(self, email, password, admin=False):
+
+    def __init__(self, email, password, username,admin=False):
         self.email = email
+        self.username = username
         self.password = bcrypt.generate_password_hash(
-            password, os.getenv('BCRYPT_LOG_ROUNDS')
+            password, app.config.get('BCRYPT_LOG_ROUNDS')
         ).decode()
         self.registered_on = datetime.datetime.now()
         self.admin = admin

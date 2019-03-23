@@ -19,10 +19,11 @@ class RegisterAPI(MethodView):
         # get the post data
         post_data = request.get_json()
         # check if user already exists
-        user = User.query.filter_by(email=post_data.get('email')).first()
+        user = User.query.filter_by(username=post_data.get('username')).first()
         if not user:
             try:
                 user = User(
+                    username=post_data.get('username'),
                     email=post_data.get('email'),
                     password=post_data.get('password')
                 )
@@ -38,6 +39,7 @@ class RegisterAPI(MethodView):
                 }
                 return make_response(jsonify(responseObject)), 201
             except Exception as e:
+                print(e)
                 responseObject = {
                     'status': 'fail',
                     'message': 'Some error occurred. Please try again.'
@@ -61,7 +63,7 @@ class LoginAPI(MethodView):
         try:
             # fetch the user data
             user = User.query.filter_by(
-                email=post_data.get('email')
+                username=post_data.get('username')
             ).first()
             if user and bcrypt.check_password_hash(
                 user.password, post_data.get('password')
